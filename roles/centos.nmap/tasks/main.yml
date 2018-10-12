@@ -1,0 +1,50 @@
+---
+- set_fact:
+    real_ansible_host: "{{ ansible_host }}"
+
+- name: install os packages
+  yum:
+    name: "{{ item }}"
+    state: installed
+  with_items: "{{ packages }}"
+
+- name: install pip packages
+  pip:
+    name: "{{ item }}"
+    state: present
+  with_items: "{{ pip_packages }}"
+
+- name: get local ip address
+  shell: 'hostname -I | tr -d " \n"'
+  register: local_ip
+  changed_when: false
+
+- name:
+#  shell: "nmap -sS -p 22 --open {{ local_ip.stdout }}/24 -oG - | awk '/Status: Up/{print $2}'"
+  shell: "nmap -sS -p 22 --open {{ scan_network_ip }}/24 -oG - | awk '/Status: Up/{print $2}'"
+  register: ips
+  changed_when: false
+
+- debug:
+    msg: '{{ ips.stdout }}'
+
+- name: get name
+  shell: 'sshpass -p raspberry ssh pi@{{ item }} -oStrictHostKeyChecking=no hostname'
+  ignore_errors: true
+  with_items: '{{ ips.stdout_lines }}'
+  register: hosts
+  changed_when: false
+
+- debug:
+  rsg: "{{ hosts.results | select('match', '^(eth|wlan)[0-9]+') | list }}"
+
+- add_host:
+    name: '{{ item.stdout }}'
+    groups:
+      - raspberrys
+    ansible_host: '{{ item.item }}'
+    ansible_ssh_pass: raspberry
+    ansible_ssh_extra_args: '-o StrictHostKeyChecking=no'
+  changed_when: false
+  with_items: '{{ hosts.results }}'
+  when: item.stdout != ""

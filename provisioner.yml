@@ -1,0 +1,22 @@
+---
+
+- name: Playbook to provision docker as raspberry provisioner
+  hosts: localhost
+  roles:
+    - { role: centos.nmap }
+  remote_user: pi
+  become: yes
+
+
+- name: simple Plabook to provision fresh raspberrypi
+  hosts: raspberrys
+#  gather_facts: no
+  roles:
+    - { role: pi.test }
+    - { role: pi.mosquitto }
+    - { role: pi.scratch_mqtt_extension }
+    - { role: pi.scratch_versioning }
+    # - { role: pi.wifi }
+    # - { role: pi.base }
+  remote_user: pi
+  become: yes

@@ -1,0 +1,31 @@
+---
+- name: copy wifi configuration
+  copy:
+    src: ./wpa_supplicant.conf
+    dest: /etc/wpa_supplicant/wpa_supplicant.conf
+    mode: 0600
+
+- name: update intefaces
+  copy:
+    src: interfaces
+    dest: /etc/network/
+    mode: 0600
+
+- name: acitvate wifi configuration
+  command: 'wpa_cli -i wlan0 reconfigure'
+
+- name: get
+  shell: ip -4 addr show wlan0 | grep -oP '(?<=inet\s)\d+(\.\d+){3}'
+  register: wlan_ip
+  changed_when: false
+
+- debug:
+    msg: '{{ wlan_ip.stdout }}'
+
+# - add_host:
+#     name: raspberrypi
+#     group: all
+#     ansible_host: '{{ wlan_ip.stdout }}'
+#     ansible_ssh_pass: raspberry
+#     ansible_ssh_extra_args: '-o StrictHostKeyChecking=no'
+#   changed_when: false

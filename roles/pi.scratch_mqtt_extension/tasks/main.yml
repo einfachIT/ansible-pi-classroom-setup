@@ -1,0 +1,40 @@
+---
+- debug:
+    var: ansible_architecture
+
+- name: setup npm and nodejs repo
+  shell: 'curl -sL https://deb.nodesource.com/setup_10.x | sudo bash -'
+  when: ansible_architecture == "x86_64"
+
+- name: Install OS Packages
+  apt:
+    name: '{{ item }}'
+  with_items: '{{ os_packages }}'
+
+- name: install needed node-red Packages
+  npm:
+    name: '{{ item }}'
+    path: /home/pi/.node-red
+  with_items: '{{ npm_packages }}'
+  become: yes
+  become_user: pi
+
+- name: create extension folder
+  file:
+    path: /home/pi/Dokumente/scratch_mqtt
+    state: directory
+    mode: 0755
+    owner: pi
+    group: pi
+
+- name: install scratch_extension files
+  copy:
+    src: '{{ item }}'
+    dest: /home/pi/Dokumente/scratch_mqtt
+    mode: 0755
+    owner: pi
+    group: pi
+  with_items:
+    - blocksDefinition.json
+    - nodered_http_mqtt_bridge.json
+    - example_project2.sb2

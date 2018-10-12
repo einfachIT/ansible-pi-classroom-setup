@@ -1,0 +1,7 @@
+---
+packages:
+- nmap
+- python-pip
+
+pip_packages:
+- python-nmap

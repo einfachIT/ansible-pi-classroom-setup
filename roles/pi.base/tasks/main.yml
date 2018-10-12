@@ -1,0 +1,28 @@
+---
+- set_fact:
+    real_ansible_host: "{{ ansible_host }}"
+
+- name: 'Update APT package cache'
+  apt:
+    update_cache: yes
+
+- name: install os packages
+  apt:
+    name: "{{ item }}"
+    state: present
+  with_items: "{{ package_names }}"
+
+- name: 'Update all packages'
+  apt:
+    name: "*"
+    state: latest
+
+- name: 'Reboot'
+  shell: sleep 2 && reboot
+  async: 1
+  poll: 0
+  ignore_errors: true
+
+- name: "Wait for Raspberry PI to come back"
+  local_action: wait_for host={{ real_ansible_host }} port=22 state=started delay=10
+  become: false

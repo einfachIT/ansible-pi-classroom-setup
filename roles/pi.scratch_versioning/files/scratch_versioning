@@ -1,0 +1,8 @@
+#!/bin/bash
+#cd $1
+fileextension="${2##*.}"
+if [ "$fileextension" == "sb2" ]; then
+  basename=`basename -s .$fileextension $2`
+  datetime=`date "+%Y_%m_%d_%H:%M.%S"`
+  cp $1/$2 $3/${basename}_$datetime.sb2
+fi

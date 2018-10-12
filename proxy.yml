@@ -1,0 +1,6 @@
+---
+- name: Playbook to provision a squid proxy
+  become: true
+  hosts: all
+  roles:
+    - { role: centos.squid }

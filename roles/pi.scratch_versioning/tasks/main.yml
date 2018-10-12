@@ -1,0 +1,19 @@
+---
+- set_fact:
+    real_ansible_host: "{{ ansible_host }}"
+
+- debug:
+    msg: 'http://{{ proxy_server_ip }}:3128'
+
+- apt:
+    name: incron
+    state: present
+    force_apt_get: yes
+  environment:
+    http_proxy: 'http://{{ proxy_server_ip }}:3128'
+    https_proxy: 'http://{{ proxy_server_ip }}:3128'
+
+- command: 'echo $http_proxy'
+  environment:
+    http_proxy: 'http://{{ proxy_server_ip }}:3128'
+    https_proxy: 'http://{{ proxy_server_ip }}:3128'
