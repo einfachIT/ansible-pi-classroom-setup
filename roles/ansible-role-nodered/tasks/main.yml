@@ -1,5 +1,0 @@
----
-
-# tasks/main.yml 
-- include_tasks: centOS.yml 
-  when: ansible_os_family == "RedHat" 
