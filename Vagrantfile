@@ -33,7 +33,7 @@ Vagrant.configure("2") do |config|
   config.vm.define "client", autostart: false do |client|
     client.vm.network "public_network"
     client.vm.box = "raspbian"
-    client.vm.network :forwarded_port, host: 2224, guest: 22, id: "ssh"
+#    client.vm.network :forwarded_port, host: 2224, guest: 22, id: "ssh"
 #    config.ssh.insert_key = false
 #    config.ssh.port = 2224
 
@@ -64,7 +64,8 @@ Vagrant.configure("2") do |config|
       provisioner.galaxy_role_file = 'requirements.yml'
       provisioner.playbook = "provisioner.yml"
       provisioner.install = true
-      provisioner.limit          = "all" # or only "nodes" group, etc.
+      provisioner.limit          = "all,localhost" # or only "nodes" group, etc.
+      provisioner.inventory_path = "hosts"
     end
   end
 end
