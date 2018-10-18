@@ -1,5 +1,7 @@
 Vagrant.configure("2") do |config|
 
+  ENV['VAGRANT_NO_PARALLEL'] = 'yes'
+
   require 'open3'
   # stdout, stderr, status = Open3.capture3("ifconfig bridge100 | grep 'inet '| grep -Fv 127.0.0.1 | awk '{print $2}'")
   myIp, stderr, status = Open3.capture3("ifconfig en0 | grep 'inet '| grep -Fv 127.0.0.1 | awk '{print $2}'")
@@ -63,7 +65,6 @@ Vagrant.configure("2") do |config|
       provisioner.playbook = "provisioner.yml"
       provisioner.install = true
       provisioner.limit          = "all" # or only "nodes" group, etc.
-      provisioner.inventory_path = "hosts"
     end
   end
 end
