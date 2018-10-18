@@ -10,12 +10,17 @@
 
 - name: simple Plabook to provision fresh raspberrypi
   hosts: raspberrys
+  environment:
+    http_proxy: '{{ http_proxy }}'
+    https_proxy: '{{ https_proxy }}'
 #  gather_facts: no
   roles:
     - { role: pi.test }
-    - { role: pi.mosquitto }
-    - { role: pi.scratch_mqtt_extension }
-    - { role: pi.scratch_versioning }
+    - { role: bassinator.mosquitto }
+    - { role: bassinator.autoarchive, installation_os_user: pi, installation_os_group: pi }
+    - { role: bassinator.simplehttp,  installation_os_user: pi, installation_os_group: pi }
+    - { role: bassinator.tigerjython, installation_os_user: pi, installation_os_group: pi }
+    - { role: ansible-role-usbbackup, installation_os_user: pi, installation_os_group: pi }
     # - { role: pi.wifi }
     # - { role: pi.base }
   remote_user: pi

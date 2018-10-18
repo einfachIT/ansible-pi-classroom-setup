@@ -1,0 +1,8 @@
+- src: https://github.com/Bassinator/ansible-role-nodered.git
+  scm: git
+
+- src: bassinator.mosquitto
+
+- src: bassinator.autoarchive
+- src: bassinator.simplehttp
+- src: bassinator.tigerjython

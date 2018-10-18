@@ -1,0 +1,10 @@
+[Unit]
+Description=Autobackup to usb
+Requires={{ usbdrive_unit }}.mount
+After={{ usbdrive_unit }}.mount
+
+[Service]
+ExecStart=/usr/bin/home_backup.sh {{ backup_source }} {{ mount_point }}
+
+[Install]
+WantedBy={{ usbdrive_unit }}.mount

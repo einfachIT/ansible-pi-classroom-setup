@@ -21,7 +21,7 @@
 
 - name:
 #  shell: "nmap -sS -p 22 --open {{ local_ip.stdout }}/24 -oG - | awk '/Status: Up/{print $2}'"
-  shell: "nmap -sS -p 22 --open {{ scan_network_ip }}/24 -oG - | awk '/Status: Up/{print $2}'"
+  shell: "nmap -sS -p {{ ssh_port }} --open {{ scan_network_ip }}/24 -oG - | awk '/Status: Up/{print $2}'"
   register: ips
   changed_when: false
 
@@ -35,14 +35,16 @@
   register: hosts
   changed_when: false
 
-- debug:
-  rsg: "{{ hosts.results | select('match', '^(eth|wlan)[0-9]+') | list }}"
+- name: found hosts with name
+  debug:
+    var: hosts
 
 - add_host:
     name: '{{ item.stdout }}'
     groups:
       - raspberrys
     ansible_host: '{{ item.item }}'
+    ansible_port: '{{ ssh_port }}'
     ansible_ssh_pass: raspberry
     ansible_ssh_extra_args: '-o StrictHostKeyChecking=no'
   changed_when: false

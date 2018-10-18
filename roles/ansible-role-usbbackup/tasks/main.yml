@@ -1,0 +1,24 @@
+- name: install autobackup script
+  copy:
+    src: home_backup.sh
+    dest: /usr/bin
+    mode: 0755
+
+- name: create excludelist
+  lineinfile:
+    path: '{{ backup_source }}/.excludelist'
+    create: yes
+    line: '{{ backup_source }}/{{ item }}'
+    owner: '{{ installation_os_user }}'
+    group: '{{ installation_os_group }}'
+  with_items: '{{ excludelist }}'
+
+- name: install usbbackup service
+  template:
+    src: 'usbbackup.service'
+    dest: '/etc/systemd/system/'
+
+- name: Make sure usbbackup is started and enabled to start on boot
+  systemd:
+    name: 'usbbackup'
+    enabled: 'yes'

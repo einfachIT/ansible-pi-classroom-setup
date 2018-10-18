@@ -1,0 +1,8 @@
+installation_os_user: vagrant
+installation_os_group: vagrant
+usbdrive_unit: media-pi-RETROPIE
+backup_source: '/home/{{installation_os_user }}'
+mount_point: /media/pi/RETROPIE
+excludelist:
+  - 'tigerjython/tigerjython2.jar'
+  - '.*'
