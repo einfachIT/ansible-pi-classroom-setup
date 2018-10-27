@@ -3,8 +3,8 @@ Vagrant.configure("2") do |config|
   ENV['VAGRANT_NO_PARALLEL'] = 'yes'
 
   require 'open3'
-  # stdout, stderr, status = Open3.capture3("ifconfig bridge100 | grep 'inet '| grep -Fv 127.0.0.1 | awk '{print $2}'")
-  myIp, stderr, status = Open3.capture3("ifconfig en0 | grep 'inet '| grep -Fv 127.0.0.1 | awk '{print $2}'")
+  myIp, stderr, status = Open3.capture3("ifconfig bridge100 | grep 'inet '| grep -Fv 127.0.0.1 | awk '{print $2}'")
+  #myIp, stderr, status = Open3.capture3("ifconfig en0 | grep 'inet '| grep -Fv 127.0.0.1 | awk '{print $2}'")
   myIp.chop!
 
   config.vm.define "proxy" do |proxy|
@@ -15,10 +15,17 @@ Vagrant.configure("2") do |config|
       docker.image = "bassualdo/centosvagrant"
       docker.has_ssh = true
     end
-    proxy.vm.provision "ansible_local" do |ansible|
-      ansible.playbook = "proxy.yml"
-      ansible.install = true
-    end
+    # proxy.vm.provision "ansible_local" do |ansible|
+    #   ansible.verbose = "vvv"
+    #   ansible.playbook = "proxy.yml"
+    #   ansible.install = true
+    # end
+
+    proxy.vm.provision "shell",
+    inline: "ansible-galaxy install --roles-path /vagrant/roles bassinator.squid"
+
+    proxy.vm.provision "shell",
+    inline: "ansible-playbook --roles-path /vagrant/roles  --connection=local --inventory 127.0.0.1, /vagrant/proxy.yml"
   end
 
   # config.vm.define :raspemu do |docker2|
@@ -62,6 +69,8 @@ Vagrant.configure("2") do |config|
       }
       provisioner.compatibility_mode = "2.0"
       provisioner.galaxy_role_file = 'requirements.yml'
+# following line to use in slow network to not force updateing ansible roles
+      provisioner.galaxy_command ='ansible-galaxy install --role-file=%{role_file} --roles-path=%{roles_path}'
       provisioner.playbook = "provisioner.yml"
       provisioner.install = true
       provisioner.limit          = "all,localhost" # or only "nodes" group, etc.

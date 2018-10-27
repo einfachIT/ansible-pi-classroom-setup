@@ -1,5 +1,0 @@
----
-os_packages:
-  - squid
-  - net-tools
-  - iftop

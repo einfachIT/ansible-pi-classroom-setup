@@ -3,4 +3,4 @@
   become: true
   hosts: all
   roles:
-    - { role: centos.squid }
+    - { role: bassinator.squid }
