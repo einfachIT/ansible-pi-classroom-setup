@@ -19,7 +19,7 @@
   register: local_ip
   changed_when: false
 
-- name:
+- name: find hosts with open ssh port
 #  shell: "nmap -sS -p 22 --open {{ local_ip.stdout }}/24 -oG - | awk '/Status: Up/{print $2}'"
   shell: "nmap -sS -p {{ ssh_port }} --open {{ scan_network_ip }}/24 -oG - | awk '/Status: Up/{print $2}'"
   register: ips
