@@ -1,8 +1,0 @@
----
-os_packages:
-  - 'mosquitto'
-#   - 'python-devel'
-#   - 'python-pip'
-#
-# pip_packages:
-#   - 'psutil'

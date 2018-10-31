@@ -1,7 +1,0 @@
-- name: Install OS Packages
-  apt:
-    name: '{{ item }}'
-  environment:
-    http_proxy: 'http://{{ proxy_server_ip }}:3128'
-    https_proxy: 'http://{{ proxy_server_ip }}:3128'
-  with_items: '{{ os_packages }}'
