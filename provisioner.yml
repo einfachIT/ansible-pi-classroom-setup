@@ -11,13 +11,14 @@
 - name: simple Plabook to provision fresh raspberrypi
   hosts: raspberrys
   environment:
-    http_proxy: '{{ http_proxy }}'
-    https_proxy: '{{ https_proxy }}'
+    HTTP_PROXY: '{{ http_proxy }}'
+    HTTPS_PROXY: '{{ https_proxy }}'
   roles:
     - { role: pi.test }
-  #  - { role: bassinator.mosquitto }
-  #  - { role: bassinator.autoarchive, installation_os_user: pi, installation_os_group: pi }
-  #  - { role: bassinator.simplehttp,  installation_os_user: pi, installation_os_group: pi }
+    # - { role: bassinator.mosquitto }
+    # - { role: bassinator.nodered }
+    - { role: bassinator.autoarchive, installation_os_user: pi, installation_os_group: pi }
+    # - { role: bassinator.simplehttp,  installation_os_user: pi, installation_os_group: pi }
     - { role: bassinator.usbbackup, installation_os_user: pi, installation_os_group: pi }
     - { role: bassinator.tigerjython, installation_os_user: pi, installation_os_group: pi }
     # - { role: pi.wifi }

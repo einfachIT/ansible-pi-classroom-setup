@@ -4,11 +4,11 @@
 
 - command: hostname
   register: hostname
+  changed_when: false
 
 - debug:
-    var: hostname
+    var: ansible_os_family
 
 - name: Display all variables/facts
   debug:
     var: hostvars[inventory_hostname]
-    verbosity: 4

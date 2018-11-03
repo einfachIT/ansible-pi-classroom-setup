@@ -1,4 +1,4 @@
-#- src: bassinator.nodered
+- src: bassinator.nodered
 - src: bassinator.mosquitto
 - src: bassinator.usbbackup
 - src: bassinator.autoarchive
