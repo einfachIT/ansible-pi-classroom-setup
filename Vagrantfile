@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 Vagrant.configure("2") do |config|
 
   ENV['VAGRANT_NO_PARALLEL'] = 'yes'
@@ -29,25 +28,22 @@ Vagrant.configure("2") do |config|
     proxy.vm.provision "shell",
     inline: "ansible-playbook --connection=local --inventory 127.0.0.1, /vagrant/proxy.yml"
   end
-=======
+
 $script = <<-SCRIPT
   sudo pip install ansible
   ansible-galaxy install --role-file=/vagrant/requirements.yml --roles-path=/vagrant/roles --force
   ansible-playbook -i /vagrant/hosts /vagrant/main.yml
 SCRIPT
->>>>>>> e847d7c3e020a70c3e085c6e3e0ae4cea9d79ead
 
-Vagrant.configure("2") do |config|
 
   config.vm.define "client", autostart: false do |client|
-<<<<<<< HEAD
     client.vm.network "public_network"
     client.vm.box = "Bassualdo/raspberryDesktop"
 #    client.vm.network :forwarded_port, host: 2224, guest: 22, id: "ssh"
 #    config.ssh.insert_key = false
 #    config.ssh.port = 2224
-
 #   client.vm.synced_folder ".", "/vagrant", type: "virtualbox"
+    client.vm.provision "shell", inline: $script
   end
 
   config.vm.define :provisioner do |docker|
@@ -79,9 +75,5 @@ Vagrant.configure("2") do |config|
       provisioner.limit          = "all,localhost" # or only "nodes" group, etc.
       provisioner.inventory_path = "hosts"
     end
-=======
-    client.vm.box = "Bassualdo/raspberryDesktop"
-    client.vm.provision "shell", inline: $script
->>>>>>> e847d7c3e020a70c3e085c6e3e0ae4cea9d79ead
   end
 end
