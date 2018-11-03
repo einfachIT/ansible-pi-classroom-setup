@@ -1,0 +1,8 @@
+---
+- name: simple Plabook to setup mqtt_extension
+  hosts: all
+  become: true
+  become_method: sudo
+  roles:
+    - { role: bassinator.mosquitto }
+    - { role: bassinator.simplehttp,  installation_os_user: pi, installation_os_group: pi }
