@@ -43,7 +43,7 @@ SCRIPT
 #    config.ssh.insert_key = false
 #    config.ssh.port = 2224
 #   client.vm.synced_folder ".", "/vagrant", type: "virtualbox"
-    client.vm.provision "shell", inline: $script
+#    client.vm.provision "shell", inline: $script
   end
 
   config.vm.define :provisioner do |docker|
