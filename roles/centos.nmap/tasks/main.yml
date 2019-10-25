@@ -48,5 +48,5 @@
     ansible_ssh_pass: raspberry
     ansible_ssh_extra_args: '-o StrictHostKeyChecking=no'
   changed_when: false
-  with_items: '{{ hosts.results }}'
+  with_items: '{{ hosts.results | difference(exclude_hosts) }}'
   when: item.stdout != ""

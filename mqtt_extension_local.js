@@ -1,17 +1,27 @@
 /* Extension demonstrating a hat block */
 /* Sayamindu Dasgupta <sayamindu@media.mit.edu>, May 2014 */
 
-new (function() {
+(function(ext) {
+
+  $.getScript("http://localhost:8080/mqttws31.js", function( data, textStatus, jqxhr ) {
+  console.log( data ); // Data returned
+  console.log( textStatus ); // Success
+  console.log( jqxhr.status ); // 200
+  console.log( "Load was performed." );
+  });
+
+  console.log( "another log" ); // 200
+  $.getScript("http://localhost:8080/jquery.min.js", function(){});
 
   var mqtt;
   var reconnectTimeout = 2000;
   var messagePayload = '';
-  var messageQueue = [];
+  var newMessage = false;
 
   host = 'test.mosquitto.org';
-  port = 8080;
+  port = 8081;
   topic = '/scratchExtensionTopic';		// topic to subscribe to
-  useTLS = false;
+  useTLS = true;
   username = null;
   password = null;
   cleansession = true;
@@ -56,12 +66,11 @@ new (function() {
   }
 
 
-    MQTTconnect();
-
 
     function onMessageArrived(message) {
         console.log("message arrived " + message.payloadString);
-        messageQueue.push(message.payloadString);
+        messagePayload = message.payloadString;
+        newMessage = true;
     };
 
     function onConnect() {
@@ -79,7 +88,6 @@ new (function() {
         $('#status').val("connection lost: " + response.errorMessage + ". Reconnecting");
     };
 
-    var ext = this;
 
     // Cleanup function when the extension is unloaded
     ext._shutdown = function() {};
@@ -88,6 +96,32 @@ new (function() {
     // Use this to report missing hardware, plugin or unsupported browser
     ext._getStatus = function() {
         return {status: 2, msg: 'Ready'};
+    };
+
+    ext.set_url = function(_host) {
+      host = _host;
+    };
+
+    ext.set_topic = function(_topic) {
+      topic = _topic;
+    };
+
+    ext.set_port = function(_port) {
+      port = _port;
+    };
+
+
+    ext.connect = function() {
+      MQTTconnect();
+    };
+
+    ext.set_TLS = function(_useTLS) {
+      if ( _useTLS == "true") {
+        useTLS = true;
+      };
+      if ( _useTLS == "false") {
+        useTLS = false;
+      };
     };
 
     ext.get_message = function() {
@@ -103,8 +137,8 @@ new (function() {
     ext.message_arrived = function() {
        // Reset alarm_went_off if it is true, and return true
        // otherwise, return false
-       if (messageQueue.length > 0) {
-           messagePayload  = messageQueue.shift();
+       if ( newMessage ) {
+           newMessage = false;
            return true;
        }
        return false;
@@ -114,12 +148,20 @@ new (function() {
     // Block and block menu descriptions
     var descriptor = {
         blocks: [
-            ['', 'send message %s', 'send_message', 'message'],
+            [' ', 'send message %s', 'send_message', 'message'],
             ['r', 'message', 'get_message'],
-            ['h', 'when message arrived', 'message_arrived'],
-        ]
+            ['b', 'message arrived', 'message_arrived'],
+            [' ', 'secure connection  %m.secureConnection', 'set_TLS', 'true'],
+            [' ', 'Host %s', 'set_host', 'test.mosquitto.org'],
+            [' ', 'Topic %s', 'set_topic', '/scratchExtensionTopic'],
+            [' ', 'Port %n', 'set_port', 8081],
+            [' ', 'connect', 'connect'],
+        ],
+        menus: {
+            secureConnection: ['true', 'false'],
+        },
     };
 
     // Register the extension
     ScratchExtensions.register('Alarm extension', descriptor, ext);
-})();
+})({});

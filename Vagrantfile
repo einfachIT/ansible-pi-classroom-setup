@@ -29,21 +29,16 @@ Vagrant.configure("2") do |config|
     inline: "ansible-playbook --connection=local --inventory 127.0.0.1, /vagrant/proxy.yml"
   end
 
-$script = <<-SCRIPT
-  sudo pip install ansible
-  ansible-galaxy install --role-file=/vagrant/requirements.yml --roles-path=/vagrant/roles --force
-  ansible-playbook -i /vagrant/hosts /vagrant/main.yml
-SCRIPT
-
 
   config.vm.define "client", autostart: false do |client|
     client.vm.network "public_network"
+    client.vm.network :forwarded_port, host: 8080, guest: 8080
+    client.vm.network :forwarded_port, host: 8081, guest: 8081
     client.vm.box = "Bassualdo/raspberryDesktop"
-#    client.vm.network :forwarded_port, host: 2224, guest: 22, id: "ssh"
-#    config.ssh.insert_key = false
-#    config.ssh.port = 2224
-#   client.vm.synced_folder ".", "/vagrant", type: "virtualbox"
-#    client.vm.provision "shell", inline: $script
+    client.vm.provider "virtualbox"
+    client.vm.provider "hyperv"
+    client.ssh.username = "pi"
+    client.ssh.password = "raspberry"
   end
 
   config.vm.define :provisioner do |docker|
@@ -56,7 +51,7 @@ SCRIPT
       s.inline = "yes | yum install git"
       s.env = {
         http_proxy: "http://"+myIp+":3128",
-        https_proxy: "https://"+myIp+":3128"
+        https_proxy: "http://"+myIp+":3128"
       }
     end
 
