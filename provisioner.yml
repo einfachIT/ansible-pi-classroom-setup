@@ -10,17 +10,41 @@
 
 - name: simple Plabook to provision fresh raspberrypi
   hosts: raspberrys
+  remote_user: pi
+  become: yes
   environment:
     http_proxy: '{{ http_proxy }}'
     https_proxy: '{{ https_proxy }}'
+
+  pre_tasks:
+    - name: Update all packages to the latest version
+      apt:
+        update_cache: true
+        upgrade: dist
+      async: 600
+      poll: 10
+    - name: set timezone to Europe/Zurich
+      timezone:
+        name: Europe/Zurich
+
   roles:
     - { role: pi.test }
-  #  - { role: bassinator.mosquitto }
-  #  - { role: bassinator.autoarchive, installation_os_user: pi, installation_os_group: pi }
-  #  - { role: bassinator.simplehttp,  installation_os_user: pi, installation_os_group: pi }
+    - { role: bassinator.mosquitto }
+    - { role: bassinator.nodered }
+    - { role: bassinator.autoarchive, installation_os_user: pi, installation_os_group: pi }
+    - role: bassinator.simplehttp
+      installation_os_user: pi
+      installation_os_group: pi
+      www_files:
+        - mqttws31.js
+        - jquery.min.js
+
+    - { role: bassinator.scratch_mqtt }
     - { role: bassinator.usbbackup, installation_os_user: pi, installation_os_group: pi }
     - { role: bassinator.tigerjython, installation_os_user: pi, installation_os_group: pi }
-    # - { role: pi.wifi }
-    # - { role: pi.base }
-  remote_user: pi
-  become: yes
+    - { role: bassinator.nginx } 
+
+  post_tasks:
+    - git:
+        repo: https://github.com/Bassinator/learning_webvr.git
+        dest: /home/pi/www/vr

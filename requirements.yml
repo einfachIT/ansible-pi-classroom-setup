@@ -1,6 +1,8 @@
-#- src: bassinator.nodered
+- src: bassinator.nodered
 - src: bassinator.mosquitto
-- src: bassinator.usbbackup
-- src: bassinator.autoarchive
 - src: bassinator.simplehttp
+- src: bassinator.autoarchive
+- src: bassinator.usbbackup
 - src: bassinator.tigerjython
+- src: bassinator.scratch_mqtt
+- src: bassinator.nginx
