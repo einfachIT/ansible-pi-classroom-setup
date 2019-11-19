@@ -1,5 +1,0 @@
-os_packages:
-  - npm
-
-npm_packages:
-  - node-red-contrib-simple-message-queue

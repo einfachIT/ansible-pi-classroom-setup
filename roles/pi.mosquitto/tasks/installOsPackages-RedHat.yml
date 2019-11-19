@@ -1,4 +1,0 @@
-- name: Install OS Packages
-  yum:
-    name: '{{ item }}'
-  with_items: '{{ os_packages }}'
