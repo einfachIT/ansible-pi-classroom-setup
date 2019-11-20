@@ -8,6 +8,6 @@
     - { role: bassinator.scratch_mqtt,  installation_os_user: pi, installation_os_group: pi, tags: ["epic", "mqtt"] }
     - { role: bassinator.autoarchive, installation_os_user: pi, installation_os_group: pi, tags: ["epic", "scratch"] }
     - { role: bassinator.usbbackup, installation_os_user: pi, installation_os_group: pi, tags: ["epic"] }
-    - { role: bassinator.tigerjython, installation_os_user: pi, installation_os_group: pi, tags: ["epic", "python" }
+    - { role: bassinator.tigerjython, installation_os_user: pi, installation_os_group: pi, tags: ["epic", "python"] }
   remote_user: pi
   become: yes
