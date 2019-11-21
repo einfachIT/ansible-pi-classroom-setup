@@ -1,3 +1,4 @@
+- src: bassinator.localisation
 - src: bassinator.nodered
 - src: bassinator.mosquitto
 - src: bassinator.simplehttp
