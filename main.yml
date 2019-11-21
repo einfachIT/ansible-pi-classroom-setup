@@ -2,6 +2,7 @@
 - name: simple Plabook to provision fresh raspberrypi
   hosts: all
   roles:
+    - { role: bassinator.localisation , loc_timezone: "Europe/Zurich", keyboard_layout: "ch", keyboard_variant: "de" }
     - { role: bassinator.mosquitto, tags: ["epic", "mqtt"] }
     - { role: bassinator.nodered, tags: ["epic", "mqtt"] }
     - { role: bassinator.simplehttp,  installation_os_user: pi, installation_os_group: pi, tags: ["epic", "mqtt", "webvr"] }
