@@ -11,3 +11,8 @@
     - { role: bassinator.tigerjython, installation_os_user: pi, installation_os_group: pi, tags: ["epic", "python"] }
   remote_user: pi
   become: yes
+
+  post_tasks:
+    - git:
+        repo: https://github.com/Bassinator/learning_webvr.git
+        dest: /home/pi/www/vr
