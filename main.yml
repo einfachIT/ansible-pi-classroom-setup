@@ -14,6 +14,6 @@
   become: yes
 
   post_tasks:
-    - git:
-        repo: https://github.com/Bassinator/learning_webvr.git
-        dest: /home/pi/www/vr
+    - command: git clone https://github.com/Bassinator/learning_webvr.git /home/pi/www/vr
+      args:
+        creates: /home/pi/www/vr
