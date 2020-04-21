@@ -12,6 +12,7 @@
     - { role: bassinator.scratch_mqtt, tags: ["epic", "mqtt"] }
     - { role: bassinator.autoarchive, tags: ["epic", "scratch"] }
     - { role: bassinator.usbbackup, tags: ["epic"] }
+    - { role: bassinator.net_sync, tags: ["epic"] }
     - { role: bassinator.tigerjython, tags: ["epic", "python"] }
   remote_user: pi
   become: yes

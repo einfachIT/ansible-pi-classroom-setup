@@ -7,3 +7,4 @@
 - src: bassinator.tigerjython
 - src: bassinator.scratch_mqtt
 - src: bassinator.nginx
+- src: bassinator.net_sync
