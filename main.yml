@@ -14,5 +14,6 @@
     - { role: bassinator.usbbackup, tags: ["epic"] }
     - { role: bassinator.net_sync, tags: ["epic"] }
 #    - { role: bassinator.tigerjython, tags: ["epic", "python"] }
+    - { role: bassinator.pi_aseba, tags: ["epic", "aseba", "thymio"] }
   remote_user: pi
   become: yes
