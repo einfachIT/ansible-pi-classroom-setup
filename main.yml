@@ -1,4 +1,15 @@
 ---
+
+- name: just gather needed facts from all hosts
+  hosts: all
+  tasks:
+    - name: Classify hosts depending on their processor architecture
+      group_by:
+        key: arch_{{ ansible_facts['ansible_architecture'] }}
+    - name: debug arch
+      debug:
+        msg: "{{ ansible_facts['ansible_architecture'] }}"
+
 - name: simple Plabook to provision fresh raspberrypi
   hosts: all
   vars: 
@@ -17,3 +28,30 @@
     - { role: bassinator.pi_aseba, tags: ["epic", "aseba", "thymio"] }
   remote_user: pi
   become: yes
+
+# now just on x86 and arm 64 bit
+- hosts:
+   - arch_x86_64
+   - arch_aarch64
+  vars:
+    installation_os_user: pi
+    installation_os_group: pi
+  gather_facts: False
+  roles:
+    - { role: bassinator.pi_aseba, tags: ["epic", "aseba", "thymio"] }
+  tasks:
+    - # tasks that only happen on CentOS go in this play
+
+# now just arm
+- hosts:
+   - arch_x86_64
+   - arch_aarch64
+  vars:
+    installation_os_user: pi
+    installation_os_group: pi
+  gather_facts: False
+  roles:
+    - { role: bassinator.pi_aseba, tags: ["epic", "aseba", "thymio"] }
+  tasks:
+    - # tasks that only happen on CentOS go in this play
+
