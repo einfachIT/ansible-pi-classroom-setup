@@ -9,3 +9,4 @@
 - src: bassinator.nginx
 - src: bassinator.net_sync
 - src: bassinator.pi_aseba
+- src: bassinator.rpd_scratch3

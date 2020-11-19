@@ -1,5 +1,4 @@
----
-
+--- 
 - name: just gather needed facts from all hosts
   hosts: all
   tasks:
@@ -32,19 +31,18 @@
 # now just on x86 and arm 64 bit
 - hosts:
    - arch_x86_64
-   - arch_aarch64
   vars:
     installation_os_user: pi
     installation_os_group: pi
   gather_facts: False
   roles:
     - { role: bassinator.pi_aseba, tags: ["epic", "aseba", "thymio"] }
+    - { role: bassinator.rpd_scratch3, tags: ["epic", "scratch3" ] }
   tasks:
     - # tasks that only happen on CentOS go in this play
 
 # now just arm
 - hosts:
-   - arch_x86_64
    - arch_aarch64
   vars:
     installation_os_user: pi
