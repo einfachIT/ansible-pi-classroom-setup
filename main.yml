@@ -23,14 +23,15 @@
     - { role: bassinator.autoarchive, tags: ["epic", "scratch"] }
     - { role: bassinator.usbbackup, tags: ["epic"] }
     - { role: bassinator.net_sync, tags: ["epic"] }
-#    - { role: bassinator.tigerjython, tags: ["epic", "python"] }
+    - { role: bassinator.ssh_tor, tags: ["epic","network","ssh","tor"] }
+    - { role: bassinator.tigerjython, tags: ["epic", "python"] }
     - { role: bassinator.pi_aseba, tags: ["epic", "aseba", "thymio"] }
   remote_user: pi
   become: yes
 
 # now just on x86 and arm 64 bit
 - hosts:
-   - arch_x86_64
+   - arch_x86
   vars:
     installation_os_user: pi
     installation_os_group: pi
@@ -38,8 +39,6 @@
   roles:
     - { role: bassinator.pi_aseba, tags: ["epic", "aseba", "thymio"] }
     - { role: bassinator.rpd_scratch3, tags: ["epic", "scratch3" ] }
-  tasks:
-    - # tasks that only happen on CentOS go in this play
 
 # now just arm
 - hosts:
@@ -51,5 +50,8 @@
   roles:
     - { role: bassinator.pi_aseba, tags: ["epic", "aseba", "thymio"] }
   tasks:
-    - # tasks that only happen on CentOS go in this play
-
+    - name: install scartch 3 package
+      apt:
+        name:
+          - scratch3
+        state: present
