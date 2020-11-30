@@ -4,10 +4,10 @@
   tasks:
     - name: Classify hosts depending on their processor architecture
       group_by:
-        key: arch_{{ ansible_facts['ansible_architecture'] }}
+        key: arch_{{ ansible_facts['architecture'] }}
     - name: debug arch
       debug:
-        msg: "{{ ansible_facts['ansible_architecture'] }}"
+        msg: "{{ ansible_facts['architecture'] }}"
 
 - name: simple Plabook to provision fresh raspberrypi
   hosts: all
@@ -29,9 +29,9 @@
   remote_user: pi
   become: yes
 
-# now just on x86 and arm 64 bit
+# now just on x86
 - hosts:
-   - arch_x86
+   - arch_i386
   vars:
     installation_os_user: pi
     installation_os_group: pi
