@@ -38,7 +38,6 @@
   gather_facts: False
   roles:
     - { role: bassinator.pi_aseba, tags: ["epic", "aseba", "thymio"] }
-    - { role: bassinator.rpd_scratch3, tags: ["epic", "scratch3" ] }
 
 # now just arm
 - hosts:
