@@ -5,6 +5,8 @@
     - name: Classify hosts depending on their processor architecture
       group_by:
         key: arch_{{ ansible_facts['architecture'] }}
+      changed_when: false
+
     - name: debug arch
       debug:
         msg: "{{ ansible_facts['architecture'] }}"
