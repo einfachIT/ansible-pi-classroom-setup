@@ -5,7 +5,6 @@
 - src: bassinator.autoarchive
 - src: bassinator.usbbackup
 - src: bassinator.tigerjython
-- src: bassinator.scratch_mqtt
 - src: bassinator.nginx
 - src: bassinator.net_sync
 - src: bassinator.ssh_tor

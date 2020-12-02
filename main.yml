@@ -17,21 +17,18 @@
     installation_os_user: pi
     installation_os_group: pi
   roles:
-#    - { role: bassinator.localisation, loc_timezone: Europe/Zurich, keyboard_layout: ch, keyboard_variant: de }
+    - { role: bassinator.localisation, loc_timezone: Europe/Zurich, keyboard_layout: de, keyboard_variant: de }
     - { role: bassinator.mosquitto, tags: ["epic", "mqtt"] }
-#    - { role: bassinator.nodered, tags: ["epic", "mqtt"] }
-    - { role: bassinator.simplehttp, tags: ["epic", "mqtt", "webvr"] }
-#    - { role: bassinator.scratch_mqtt, tags: ["epic", "mqtt"] }
-    - { role: bassinator.autoarchive, tags: ["epic", "scratch"] }
-    - { role: bassinator.usbbackup, tags: ["epic"] }
-    - { role: bassinator.net_sync, tags: ["epic"] }
-    - { role: bassinator.ssh_tor, tags: ["epic","network","ssh","tor"] }
-    - { role: bassinator.tigerjython, tags: ["epic", "python"] }
-    - { role: bassinator.pi_aseba, tags: ["epic", "aseba", "thymio"] }
+    - { role: bassinator.simplehttp, tags: ["epic", "server"] }
+    - { role: bassinator.autoarchive, tags: ["epic", "client"] }
+    - { role: bassinator.usbbackup, tags: ["epic", "client", "server"] }
+    - { role: bassinator.net_sync, tags: ["epic", "client"] }
+    - { role: bassinator.ssh_tor, tags: ["epic","server"] }
+    - { role: bassinator.tigerjython, tags: ["epic", "client", "python"] }
   remote_user: pi
   become: yes
 
-# now just on x86
+# now just on i386 (raspberry Pi Desktop)
 - hosts:
    - arch_i386
   vars:
@@ -41,7 +38,7 @@
   roles:
     - { role: bassinator.pi_aseba, tags: ["epic", "aseba", "thymio"] }
 
-# now just arm
+# now just arm 64 bit
 - hosts:
    - arch_aarch64
   vars:
@@ -51,8 +48,18 @@
   roles:
     - { role: bassinator.pi_aseba, tags: ["epic", "aseba", "thymio"] }
   tasks:
-    - name: install scartch 3 package
+    - name: install scratch3 package
       apt:
         name:
           - scratch3
         state: present
+
+# now just arm 32 bit
+- hosts:
+   - arch_aarch
+  vars:
+    installation_os_user: pi
+    installation_os_group: pi
+  gather_facts: False
+  roles:
+    - { role: bassinator.scratch_mqtt, tags: ["epic", "mqtt"] }
