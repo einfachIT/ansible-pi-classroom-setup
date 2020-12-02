@@ -10,3 +10,4 @@
 - src: bassinator.ssh_tor
 - src: bassinator.pi_aseba
 - src: bassinator.rpd_scratch3
+- src: bassinator.scratch_mqtt

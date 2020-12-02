@@ -46,7 +46,7 @@
     installation_os_group: pi
   gather_facts: False
   roles:
-    - { role: bassinator.pi_aseba, tags: ["epic", "aseba", "thymio"] }
+    - { role: bassinator.pi_aseba, tags: ["epic", "client", "aseba", "thymio"] }
   tasks:
     - name: install scratch3 package
       apt:
@@ -62,4 +62,4 @@
     installation_os_group: pi
   gather_facts: False
   roles:
-    - { role: bassinator.scratch_mqtt, tags: ["epic", "mqtt"] }
+    - { role: bassinator.scratch_mqtt, tags: ["epic", "client", "mqtt"] }
