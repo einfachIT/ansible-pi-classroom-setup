@@ -1,0 +1,33 @@
+--- 
+- name: simple Plabook to provision fresh raspberrypi
+  hosts: unconfigured
+  strategy: free
+  vars: 
+    installation_os_user: pi
+    installation_os_group: pi
+  
+  pre_tasks:
+    - name: update apt cache with sudo apt-get --allow-releaseinfo-change update 
+      command: sudo apt-get --allow-releaseinfo-change update
+      changed_when: false 
+    - name: Upgrade the OS (apt-get upgrade)
+      apt:
+        upgrade: yes
+
+  roles:
+    - { role: bassinator.localisation, loc_timezone: Europe/Zurich, keyboard_layout: de, keyboard_variant: de }
+    - { role: bassinator.mosquitto, tags: ["epic", "mqtt"] }
+    - { role: bassinator.simplehttp, tags: ["epic", "server"] }
+    - { role: bassinator.autoarchive, tags: ["epic", "client"] }
+    - { role: bassinator.usbbackup, tags: ["epic", "client", "server"] }
+    - { role: bassinator.net_sync, tags: ["epic", "client"] }
+    - { role: bassinator.ssh_tor, tags: ["epic","server"] }
+    - { role: bassinator.tigerjython, tags: ["epic", "client", "python"] }
+    - { role: bassinator.pi_aseba, tags: ["epic", "client", "aseba", "thymio"] }
+
+  tasks:
+    - name: Install scratch3 OS package
+      apt:
+        name: 'scratch3'
+  remote_user: pi
+  become: yes
