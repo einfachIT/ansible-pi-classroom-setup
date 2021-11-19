@@ -1,0 +1,19 @@
+--- 
+- name: simple Plabook to provision fresh raspberrypi
+  hosts: all
+  vars: 
+    installation_os_user: pi
+    installation_os_group: pi
+  
+  tasks:
+    - name: update recovery confinient scripts 
+      ansible.builtin.copy:
+        src: "files/{{ item }}"
+        dest: /boot/
+      with_items:
+        - firstrun.skel
+        - boot_to_recovery
+        - boot_to_root
+        - restore_root
+  remote_user: pi
+  become: yes

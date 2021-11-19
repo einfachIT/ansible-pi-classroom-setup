@@ -1,0 +1,14 @@
+--- 
+- name: simple Plabook to provision fresh raspberrypi
+  hosts: raspberries
+  become: true
+  gather_facts: false
+  vars: 
+    installation_os_user: pi
+    installation_os_group: pi
+
+  tasks:
+    - name: Enable vnc service
+      ansible.builtin.service:
+        name: vncserver-x11-serviced
+        state: started

@@ -4,3 +4,4 @@ wpa_supplicant.conf
 .vagrant
 squid
 *.retry
+*.icloud
