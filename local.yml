@@ -17,7 +17,7 @@
     - { role: bassinator.localisation, loc_timezone: Europe/Zurich, keyboard_layout: de, keyboard_variant: de }
     - { role: bassinator.mosquitto, tags: ["epic", "mqtt"] }
     - { role: bassinator.simplehttp, tags: ["epic", "server"] }
-    - { role: bassinator.autoarchive, tags: ["epic", "client"] }
+#    - { role: bassinator.autoarchive, tags: ["epic", "client"] }
     - { role: bassinator.usbbackup, tags: ["epic", "client", "server"] }
     - { role: bassinator.net_sync, tags: ["epic", "client"] }
     - { role: bassinator.ssh_tor, tags: ["epic","server"] }
