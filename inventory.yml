@@ -1,0 +1,42 @@
+---
+all:
+  children:
+    raspberries:
+      vars:
+        ansible_connection: ssh
+        ansible_user: pi
+        ansible_ssh_pass: raspberry
+        ansible_python_interpreter: /usr/bin/python3
+        net_sync_hostname: ubhkxntypimkfegke3fggj4ope4loh2uh4odywuwbsdphw5gwjqif7id.onion
+      children:
+        epicraspberries:
+          hosts:
+            maja:
+              hostname: "maja-bukatz"
+              ansible_host: "{{ hostname }}.local"
+              raw_hostname: ''
+            karla:
+              hostname: "karla-bukatz"
+              ansible_host: "{{ hostname }}.local"
+              raw_hostname: ''
+            mathilda:
+              hostname: "mathilda-meister"
+              ansible_host: "{{ hostname }}.local"
+              raw_hostname: ''
+            gabriel:
+              hostname: "gabriel-kellermann"
+              ansible_host: "{{ hostname }}.local"
+              raw_hostname: ''
+            louisa:
+              hostname: "louisa-kellermann"
+              ansible_host: "{{ hostname }}.local"
+              raw_hostname: ''
+            loni:
+              hostname: "loni-lehmann"
+              ansible_host: "{{ hostname }}.local"
+              raw_hostname: ''
+            gloria:
+              hostname: "gloria-monn"
+              ansible_host: "{{ hostname }}.local"
+              raw_hostname: ''
+

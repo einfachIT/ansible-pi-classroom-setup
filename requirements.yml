@@ -4,6 +4,5 @@
 - src: bassinator.simplehttp
 - src: bassinator.autoarchive
 - src: bassinator.usbbackup
-- src: bassinator.tigerjython
 - src: bassinator.nginx
 - src: bassinator.pi_aseba
